@@ -1,9 +1,9 @@
 <?php
 // Kết nối đến cơ sở dữ liệu (thay đổi thông tin kết nối nếu cần)
 $servername = "localhost";
-$username = "ngoncc_daongon";
-$password = "Qwer7896!";
-$dbname = "ngoncc_daongon";
+$username = "u933773655_vipdopro02";
+$password = "Dodz1997a";
+$dbname = "u933773655_fikto2";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
