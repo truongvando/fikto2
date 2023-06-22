@@ -29,7 +29,7 @@ if (!isset($_SESSION['user_id'])) {
             color: #333;
         }
         .container {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
 }
         form {
@@ -384,8 +384,9 @@ window.onload = function() {
             <th>ID</th>
             <th>Liên kết</th>
             <th>Số lượt truy cập</th>
-            <th>Ghi chú</th>
+            <th>Tổng lượt truy cập</th>
             <th>Phần trăm lưu lượng truy cập</th>
+            <th>Ghi chú</th>
             <th>Hành động</th>
         </tr>
         <?php include 'fetch_links.php'; ?>
