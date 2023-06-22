@@ -6,12 +6,12 @@ $user_id = $_SESSION['user_id']; // Lấy user_id từ session
 
 if ($user_id == 0) {
     // Nếu user_id là 0 (admin), lấy tất cả các liên kết
-    $sql = "SELECT * FROM links";
+    $sql = "SELECT id, link, count, percentage, notes FROM links";
 } else {
     // Nếu không phải admin, chỉ lấy liên kết của người dùng hiện tại
-    $sql = "SELECT * FROM links WHERE user_id = ?";
+    $sql = "SELECT id, link, count, percentage, notes FROM links WHERE user_id = ?";
 }
-$sql = "SELECT id, link, count, percentage, notes FROM links WHERE user_id = ?";
+
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -47,8 +47,6 @@ if ($result->num_rows > 0) {
     }
 } else {
     echo "<tr><td colspan='5'>0 results</td></tr>";
-    echo "<td><input type='text' class='notes-input' data-id='".$row["id"]."' value='".$row["notes"]."'></td>";
-
 }
 
 $stmt->close();
