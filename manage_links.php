@@ -202,9 +202,46 @@ button.delete-link:hover {
 }
 .username-display{
     color: red;
-}
+}    
+<style>
+        /* Add styles for the edit form */
+        #edit-form {
+            display: none;
+            margin-bottom: 20px;
+        }
     </style>
     <script>
+        function editLink() {
+            const id = document.getElementById("edit-id").value;
+            const link = document.getElementById("edit-link").value;
+            // Send a POST request to edit_link.php
+        }
+
+        function showEditForm(id, link) {
+            document.getElementById("edit-id").value = id;
+            document.getElementById("edit-link").value = link;
+            document.getElementById("edit-form").style.display = "block";
+        }
+
+        function init() {
+            document.querySelectorAll("button.delete-link").forEach(function(button) {
+                button.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    deleteLink(event.target.dataset.id);
+                });
+            });
+
+            document.querySelectorAll("button.edit-btn").forEach(function(button) {
+                button.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    showEditForm(event.target.dataset.id, event.target.dataset.link);
+                });
+            });
+        }
+
+        window.onload = function() {
+            init();
+        };
         function addLink() {
     const link = document.getElementById("link").value;
     const xhr = new XMLHttpRequest();
@@ -341,18 +378,26 @@ window.onload = function() {
         <input type="submit" value="Thêm">
   <button class="refresh-btn" onclick="location.reload();"><i class="fa fa-sync-alt"></i> Làm mới</button>
     </form>
+         <!-- Add an edit form -->
+        <form id="edit-form" onsubmit="event.preventDefault(); editLink();">
+            <input type="hidden" id="edit-id">
+            <label for="edit-link">Chỉnh sửa liên kết:</label>
+            <input type="text" id="edit-link" required>
+            <input type="submit" value="Lưu">
+        </form>
     
     <p id="random-link-display"><span id="random-link" onclick="copyRandomLink()"><?php if (isset($_SESSION['random_link'])) echo $_SESSION['random_link']; ?></span></p>
     <table>
-        <tr>
-            <th>ID</th>
-            <th>Liên kết</th>
-            <th>Số lượt truy cập</th>
-            <th>Phần trăm lưu lượng truy cập</th>
-            <th>Hành động</th>
-        </tr>
-        <?php include 'fetch_links.php'; ?>
-    </table>
+            <tr>
+                <th>ID</th>
+                <th>Liên kết</th>
+                <th>Số lượt truy cập</th>
+                <th>Phần trăm lưu lượng truy cập</th>
+                <th>Xóa</th>
+                <th>Chỉnh sửa</th>
+            </tr>
+            <?php include 'fetch_links.php'; ?>
+        </table>
     <button id="update-btn" onclick="updatePercentages(true);">Cập nhật</button>
     <span id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;"></span>
     </div>
