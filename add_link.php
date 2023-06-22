@@ -4,6 +4,10 @@ include 'db_connection.php';
 
 $link = $_POST['link'];
 $user_id = $_SESSION['user_id']; // Lấy user_id từ session
+$notes = $_POST['notes'];
+
+$sql = "INSERT INTO links (id, link, percentage, user_id, notes) VALUES (?, ?, 0, ?, ?)";
+$stmt->bind_param('isii', $new_id, $link, $user_id, $notes);
 
 // Tìm ID lớn nhất trong bảng
 $sql = "SELECT MAX(id) as max_id FROM links";
