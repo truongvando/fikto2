@@ -11,6 +11,7 @@ if ($user_id == 0) {
     // Nếu không phải admin, chỉ lấy liên kết của người dùng hiện tại
     $sql = "SELECT * FROM links WHERE user_id = ?";
 }
+$sql = "SELECT id, link, count, percentage, notes FROM links WHERE user_id = ?";
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
@@ -31,21 +32,21 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     // Output data of each row
     while($row = $result->fetch_assoc()) {
-       echo "<tr>
-        <td>".$row["id"]."</td>
-        <td><input type='text' class='link-input' data-id='".$row["id"]."' value='".$row["link"]."'></td>
-        <td>".$row["count"]."</td>
-        <td>
-            <input type='text' class='percentage-input' step='0.01' min='0' max='100' data-id='".$row["id"]."' value='".$row["percentage"]."'/>
-        </td>
-        <td>".$row["total_visits"]."</td>
-        <td>
-            <button class='delete-link' data-id='".$row["id"]."'>Delete</button>
-        </td>
-      </tr>";
+        echo "<tr>
+                <td>".$row["id"]."</td>
+                <td><input type='text' class='link-input' data-id='".$row["id"]."' value='".$row["link"]."'></td>
+                <td>".$row["count"]."</td>
+                <td>
+                    <input type='text' class='percentage-input' step='0.01' min='0' max='100' data-id='".$row["id"]."' value='".$row["percentage"]."'/>
+                </td>
+                <td><input type='text' class='notes-input' data-id='".$row["id"]."' value='".$row["notes"]."'></td> <!-- Thêm dòng này -->
+                <td>
+                    <button class='delete-link' data-id='".$row["id"]."'>Delete</button>
+                </td>
+              </tr>";
     }
 } else {
-    echo "<tr><td colspan='6'>0 results</td></tr>";
+    echo "<tr><td colspan='5'>0 results</td></tr>";
     echo "<td><input type='text' class='notes-input' data-id='".$row["id"]."' value='".$row["notes"]."'></td>";
 
 }
