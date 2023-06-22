@@ -384,6 +384,7 @@ window.onload = function() {
             <th>ID</th>
             <th>Liên kết</th>
             <th>Số lượt truy cập</th>
+            <th>Ghi chú</th>
             <th>Phần trăm lưu lượng truy cập</th>
             <th>Hành động</th>
         </tr>
@@ -391,13 +392,6 @@ window.onload = function() {
     </table>
     <button id="update-btn" onclick="updatePercentages(true);">Cập nhật</button>
     <span id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;"></span>
-    document.querySelectorAll(".link-input").forEach(function(input) {
-    input.addEventListener("change", function(event) {
-        const id = event.target.dataset.id;
-        const link = event.target.value;
-        // Send a POST request to update_link.php
-    });
-});
 
     
     </div>
