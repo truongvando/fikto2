@@ -323,13 +323,54 @@ function copyRandomLink() {
 
     selection.removeAllRanges();
 }
+document.querySelectorAll(".link-input").forEach(function(input) {
+    input.addEventListener("change", function(event) {
+        const id = event.target.dataset.id;
+        const link = event.target.value;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "update_link.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.responseText !== "success") {
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            }
+        };
+        xhr.send("id=" + encodeURIComponent(id) + "&link=" + encodeURIComponent(link));
+    });
+});
+document.querySelectorAll(".notes-input").forEach(function(input) {
+    input.addEventListener("change", function(event) {
+        const id = event.target.dataset.id;
+        const notes = event.target.value;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "update_notes.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.responseText !== "success") {
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            }
+        };
+        xhr.send("id=" + encodeURIComponent(id) + "&notes=" + encodeURIComponent(notes));
+    });
+});
 
+  window.onload = function() {
+            init();
 
-window.onload = function() {
-    init();
-};
+            document.querySelectorAll(".link-input").forEach(function(input) {
+                input.addEventListener("change", function(event) {
+                    const id = event.target.dataset.id;
+                    const link = event.target.value;
+                    // Send a POST request to update_link.php
+                });
+            });
+        };
+    </script>
 
-</script>
     
 </head>
 <body>
@@ -355,6 +396,15 @@ window.onload = function() {
     </table>
     <button id="update-btn" onclick="updatePercentages(true);">Cập nhật</button>
     <span id="error-message" style="display: none; color: red; text-align: center; margin-top: 10px;"></span>
+    document.querySelectorAll(".link-input").forEach(function(input) {
+    input.addEventListener("change", function(event) {
+        const id = event.target.dataset.id;
+        const link = event.target.value;
+        // Send a POST request to update_link.php
+    });
+});
+
+    
     </div>
 </body>
 </html>
