@@ -323,6 +323,7 @@ function copyRandomLink() {
 
     selection.removeAllRanges();
 }
+
 document.querySelectorAll(".link-input").forEach(function(input) {
     input.addEventListener("change", function(event) {
         const id = event.target.dataset.id;
@@ -340,6 +341,7 @@ document.querySelectorAll(".link-input").forEach(function(input) {
         xhr.send("id=" + encodeURIComponent(id) + "&link=" + encodeURIComponent(link));
     });
 });
+
 document.querySelectorAll(".notes-input").forEach(function(input) {
     input.addEventListener("change", function(event) {
         const id = event.target.dataset.id;
@@ -358,17 +360,10 @@ document.querySelectorAll(".notes-input").forEach(function(input) {
     });
 });
 
-  window.onload = function() {
-            init();
+window.onload = function() {
+    init();
+};
 
-            document.querySelectorAll(".link-input").forEach(function(input) {
-                input.addEventListener("change", function(event) {
-                    const id = event.target.dataset.id;
-                    const link = event.target.value;
-                    // Send a POST request to update_link.php
-                });
-            });
-        };
     </script>
 
     
