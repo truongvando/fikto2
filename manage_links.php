@@ -206,6 +206,30 @@ button.delete-link:hover {
     </style>
     
     <script>
+    
+    function copyRandomLink() {
+    const randomLinkElement = document.getElementById("random-link");
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(randomLinkElement);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    try {
+        const successful = document.execCommand("copy");
+        if (successful) {
+            alert("Đã sao chép đường link ngẫu nhiên vào clipboard!");
+        } else {
+            alert("Không thể sao chép đường link. Vui lòng thử lại hoặc sao chép thủ công.");
+        }
+    } catch (err) {
+        alert("Không thể sao chép đường link. Vui lòng thử lại hoặc sao chép thủ công.");
+    }
+
+    selection.removeAllRanges();
+}
+
+    
         function addLink() {
     const link = document.getElementById("link").value;
     const notes = document.getElementById("notes").value; 
@@ -354,8 +378,11 @@ window.onload = function() {
    <h1>Tài khoản - <span class="username-display"><?php if (isset($_SESSION['username'])) echo htmlspecialchars($_SESSION['username']); ?></span><a href="logout.php" class="logout-btn">Đăng xuất</a></h1>
     <form onsubmit="event.preventDefault(); addLink();">
         <label for="link">Thêm liên kết:</label>
-        <input type="text" id="link" name="link" required>
-        <input type="submit" value="Thêm">
+    <input type="text" id="link" name="link" required>
+    <label for="notes">Thêm ghi chú:</label>
+    <input type="text" id="notes" name="notes">
+    <input type="submit" value="Thêm">
+        
   <button class="refresh-btn" onclick="location.reload();"><i class="fa fa-sync-alt"></i> Làm mới</button>
     </form>
     
