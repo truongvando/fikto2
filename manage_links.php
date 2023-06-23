@@ -207,6 +207,7 @@ button.delete-link:hover {
     <script>
         function addLink() {
     const link = document.getElementById("link").value;
+    const notes = document.getElementById("notes").value; // Thêm dòng này
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "add_link.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -220,7 +221,7 @@ button.delete-link:hover {
             }
         }
     };
-    xhr.send("link=" + encodeURIComponent(link));
+    xhr.send("link=" + encodeURIComponent(link) + "&notes=" + encodeURIComponent(notes)); // Cập nhật dòng này
 }
 
 function deleteLink(id) {
