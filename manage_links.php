@@ -339,9 +339,7 @@ document.querySelectorAll(".link-input").forEach(function(input) {
             }
         };
         xhr.send("id=" + encodeURIComponent(id) + "&link=" + encodeURIComponent(link));
-    });
-});
-
+    
 document.querySelectorAll(".notes-input").forEach(function(input) {
     input.addEventListener("change", function(event) {
         const id = event.target.dataset.id;
