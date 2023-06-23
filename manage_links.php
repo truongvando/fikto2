@@ -204,10 +204,11 @@ button.delete-link:hover {
     color: red;
 }
     </style>
+    
     <script>
         function addLink() {
     const link = document.getElementById("link").value;
-    const notes = document.getElementById("notes").value; // Thêm dòng này
+    const notes = document.getElementById("notes").value; 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "add_link.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -221,7 +222,7 @@ button.delete-link:hover {
             }
         }
     };
-    xhr.send("link=" + encodeURIComponent(link) + "&notes=" + encodeURIComponent(notes)); // Cập nhật dòng này
+    xhr.send("link=" + encodeURIComponent(link) + "&notes=" + encodeURIComponent(notes)); 
 }
 
 function deleteLink(id) {
@@ -302,62 +303,43 @@ function init() {
             deleteLink(event.target.dataset.id);
         });
     });
-}
-function copyRandomLink() {
-    const randomLinkElement = document.getElementById("random-link");
-    const selection = window.getSelection();
-    const range = document.createRange();
-    range.selectNodeContents(randomLinkElement);
-    selection.removeAllRanges();
-    selection.addRange(range);
 
-    try {
-        const successful = document.execCommand("copy");
-        if (successful) {
-            alert("Đã sao chép đường link ngẫu nhiên vào clipboard!");
-        } else {
-            alert("Không thể sao chép đường link. Vui lòng thử lại hoặc sao chép thủ công.");
-        }
-    } catch (err) {
-        alert("Không thể sao chép đường link. Vui lòng thử lại hoặc sao chép thủ công.");
-    }
-
-    selection.removeAllRanges();
-}
-
-document.querySelectorAll(".link-input").forEach(function(input) {
-    input.addEventListener("change", function(event) {
-        const id = event.target.dataset.id;
-        const link = event.target.value;
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "update_link.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                if (xhr.responseText !== "success") {
-                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+    document.querySelectorAll(".link-input").forEach(function(input) {
+        input.addEventListener("change", function(event) {
+            const id = event.target.dataset.id;
+            const link = event.target.value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "update_link.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (xhr.responseText !== "success") {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
+                    }
                 }
-            }
-        };
-        xhr.send("id=" + encodeURIComponent(id) + "&link=" + encodeURIComponent(link));
-    
-document.querySelectorAll(".notes-input").forEach(function(input) {
-    input.addEventListener("change", function(event) {
-        const id = event.target.dataset.id;
-        const notes = event.target.value;
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "update_notes.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                if (xhr.responseText !== "success") {
-                    alert("Có lỗi xảy ra, vui lòng thử lại.");
-                }
-            }
-        };
-        xhr.send("id=" + encodeURIComponent(id) + "&notes=" + encodeURIComponent(notes));
+            };
+            xhr.send("id=" + encodeURIComponent(id) + "&link=" + encodeURIComponent(link));
+        });
     });
-});
+
+    document.querySelectorAll(".notes-input").forEach(function(input) {
+        input.addEventListener("change", function(event) {
+            const id = event.target.dataset.id;
+            const notes = event.target.value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "update_notes.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if (xhr.responseText !== "success") {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
+                    }
+                }
+            };
+            xhr.send("id=" + encodeURIComponent(id) + "&notes=" + encodeURIComponent(notes));
+        });
+    });
+}
 
 window.onload = function() {
     init();
