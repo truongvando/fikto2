@@ -72,7 +72,7 @@ if (!empty($data)) {
     }
 
     if (!$errors) {
-        $sql_reset_counts = "UPDATE links SET count = 1 WHERE user_id = ?";
+        $sql_reset_counts = "UPDATE links SET count = 0 WHERE user_id = ?";
         $stmt_reset_counts = $conn->prepare($sql_reset_counts);
         $stmt_reset_counts->bind_param("i", $user_id);
         if (!$stmt_reset_counts->execute()) {
