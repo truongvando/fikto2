@@ -29,7 +29,7 @@ if (!isset($_SESSION['user_id'])) {
             color: #333;
         }
         .container {
-    max-width: 1500px;
+    max-width: 1600px;
     margin: 0 auto;
 }
         form {
@@ -166,6 +166,20 @@ if (!isset($_SESSION['user_id'])) {
     cursor: pointer;
     font-weight: bold;
     color: #333;
+}
+#edit-random-link-btn {
+    margin-left: 10px;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+}
+
+#edit-random-link-btn:hover {
+    background-color: #0056b3;
 }
 
 #random-link:hover {
@@ -345,6 +359,30 @@ function init() {
             xhr.send("id=" + encodeURIComponent(id) + "&link=" + encodeURIComponent(link));
         });
     });
+    
+
+function updateRandomLink() {
+    const newRandomLink = document.getElementById('new-random-link-input').value;
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "update_random_link.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            if (xhr.responseText === "success") {
+                // Cập nhật liên kết ngẫu nhiên hiển thị trên trang
+                document.getElementById('random-link').innerText = newRandomLink;
+                // Đóng hộp thoại modal
+                document.getElementById('edit-random-link-modal').style.display = 'none';
+            } else {
+                alert("Có lỗi xảy ra, vui lòng thử lại.");
+            }
+        }
+    };
+    xhr.send("new_random_link=" + encodeURIComponent(newRandomLink));
+}
+
+
+
 
     document.querySelectorAll(".notes-input").forEach(function(input) {
         input.addEventListener("change", function(event) {
@@ -382,11 +420,28 @@ window.onload = function() {
     <label for="notes">Thêm ghi chú:</label>
     <input type="text" id="notes" name="notes">
     <input type="submit" value="Thêm">
-        
+    
   <button class="refresh-btn" onclick="location.reload();"><i class="fa fa-sync-alt"></i> Làm mới</button>
     </form>
     
-    <p id="random-link-display"><span id="random-link" onclick="copyRandomLink()"><?php if (isset($_SESSION['random_link'])) echo $_SESSION['random_link']; ?></span></p>
+    <p id="random-link-display">
+    <span id="random-link" onclick="copyRandomLink()">
+        <?php if (isset($_SESSION['random_link'])) echo $_SESSION['random_link']; ?>
+    </span>
+    
+</p>
+<div id="edit-random-link-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="edit-random-link-form">
+            <label for="new-random-link">Nhập liên kết tuỳ chỉnh mới:</label>
+            <input type="text" id="new-random-link" name="new-random-link" required>
+            <input type="submit" value="Cập nhật">
+        </form>
+    </div>
+</div>
+
+
     <table>
         <tr>
             <th>ID</th>
