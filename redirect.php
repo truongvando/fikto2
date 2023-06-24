@@ -1,32 +1,45 @@
 <?php
+session_start();
 include 'db_connection.php';
 
-$user_id = $_GET['user_id'];
+$id = $_GET['id'];
 
-$sql = "SELECT * FROM links WHERE user_id = '$user_id'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $links = array();
-
-    while ($row = $result->fetch_assoc()) {
-        for ($i = 0; $i < $row['percentage']; $i++) {
-            $links[] = $row['link'];
-        }
-    }
-
-    $selected_link = $links[array_rand($links)];
-
-    // Cập nhật số lượt truy cập
-    $sql = "UPDATE links SET count = count + 1 WHERE link = '$selected_link'";
-    $conn->query($sql);
-
-    // Chuyển hướng đến liên kết được chọn
-    header("Location: " . $selected_link);
-    exit;
-} else {
-    echo "Không có liên kết nào cho tài khoản này.";
+$sql = "SELECT * FROM links WHERE id = ?";
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Error preparing select query: " . $conn->error);
 }
 
+$stmt->bind_param('i', $id);
+$success = $stmt->execute();
+if (!$success) {
+    die("Error fetching link: " . $stmt->error);
+}
+
+$result = $stmt->get_result();
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $link = $row['link'];
+    $count = $row['count'] + 1;
+    $new_total_visits = $row['total_visits'] + 1; // Tăng số lượt truy cập tổng cộng
+
+    $sql = "UPDATE links SET count = ?, total_visits = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Error preparing update query: " . $conn->error);
+    }
+
+    $stmt->bind_param('iii', $count, $new_total_visits, $id);
+    $success = $stmt->execute();
+    if (!$success) {
+        die("Error updating count: " . $stmt->error);
+    }
+
+    header("Location: " . $link);
+} else {
+    echo "Link not found";
+}
+
+$stmt->close();
 $conn->close();
 ?>
